@@ -1,0 +1,23 @@
+{
+    "name": "waynabox/logger-bundle",
+    "description": "Bundle to log all the request context information on each log call",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Waynabox",
+            "email": "labs@waynabox.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Waynabox\\LoggerBundle": "LoggerBundle/"
+        }
+    },
+    "require": {
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.0.*"
+    }
+}
