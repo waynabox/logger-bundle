@@ -1,7 +1,7 @@
 {
     "name": "waynabox/logger-bundle",
     "description": "Bundle to log all the request context information on each log call",
-    "type": "library",
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {

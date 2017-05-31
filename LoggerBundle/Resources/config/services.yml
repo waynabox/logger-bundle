@@ -1,0 +1,18 @@
+services:
+    waynabox.logger_bundle.infrastructure.waynabox_logging_json_formatter:
+        class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLoggingJsonFormatter
+#
+#    waynabox.infrastructure.common.logging_exceptions.waynabox_exception_logger_processor:
+#        class: Waynabox\Infrastructure\Common\LoggingExceptions\WaynaboxExceptionLoggerProcessor
+#        arguments:  ["@session", "@request_stack"]
+#        tags:
+#            - { name: monolog.processor, method: processRecord, handler: waynabox_logger_handler }
+
+    waynabox.logger_bundle.infrastructure.waynabox_logger:
+        class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: waynabox_logger_channel }
+
+    waynabox_logger:
+        alias: waynabox.logger_bundle.infrastructure.waynabox_logger
