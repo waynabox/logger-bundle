@@ -17,9 +17,17 @@ class WaynaboxException extends \Exception
     {
         global $kernel;
 
-        /** @var WaynaboxLoggerExceptionMessage $logger */
-        $logger = $kernel->getContainer()->get('waynabox_exception_logger');
+        if($this->isSymfoyExecution()) {
+            /** @var WaynaboxLogger $logger */
+            $logger = $kernel->getContainer()->get('waynabox.infrastructure.common.logging_exceptions.waynabox_exception_logger');
 
-        $logger->info($this);
+            $logger->info($this);
+        }
+    }
+
+    private function isSymfoyExecution()
+    {
+        global $kernel;
+        return isset($kernel);
     }
 }
