@@ -14,9 +14,14 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->isRequired()
             ->children()
-                ->scalarNode('path')
+                ->scalarNode('logger_file_path')
                     ->isRequired()
                     ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('logger_exception_file_path')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
             ->end();
 
         return $treeBuilder;

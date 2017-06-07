@@ -1,12 +1,23 @@
 services:
+
     waynabox.logger_bundle.infrastructure.waynabox_logging_json_formatter:
-        class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLoggingJsonFormatter
-#
-#    waynabox.infrastructure.common.logging_exceptions.waynabox_exception_logger_processor:
-#        class: Waynabox\Infrastructure\Common\LoggingExceptions\WaynaboxExceptionLoggerProcessor
-#        arguments:  ["@session", "@request_stack"]
-#        tags:
-#            - { name: monolog.processor, method: processRecord, handler: waynabox_logger_handler }
+            class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLoggingJsonFormatter
+
+    #
+    # Logger services
+    #
+
+    waynabox.logger_bundle.domain.waynabox_logger_basic_log_message:
+        class: Waynabox\LoggerBundle\Domain\WaynaboxLoggerBasicLogMessage
+
+    waynabox.logger_bundle.infrastructure.waynabox_logger_processor:
+        class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLoggerProcessor
+        arguments:
+            - "@session"
+            - "@request_stack"
+            - "@waynabox.logger_bundle.domain.waynabox_logger_basic_log_message"
+        tags:
+            - { name: monolog.processor, method: processRecord, handler: waynabox_logger_handler }
 
     waynabox.logger_bundle.infrastructure.waynabox_logger:
         class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLogger
@@ -16,3 +27,28 @@ services:
 
     waynabox_logger:
         alias: waynabox.logger_bundle.infrastructure.waynabox_logger
+
+    #
+    # Logger exception services
+    #
+
+    waynabox.logger_bundle.domain.waynabox_logger_exception_message:
+        class: Waynabox\LoggerBundle\Domain\WaynaboxLoggerExceptionMessage
+
+    waynabox.logger_bundle.infrastructure.waynabox_exception_logger_processor:
+        class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLoggerProcessor
+        arguments:
+            - "@session"
+            - "@request_stack"
+            - "@waynabox.logger_bundle.domain.waynabox_logger_exception_message"
+        tags:
+            - { name: monolog.processor, method: processRecord, handler: waynabox_exception_logger_handler }
+
+    waynabox.logger_bundle.infrastructure.waynabox_exception_logger:
+        class: Waynabox\LoggerBundle\Infrastructure\WaynaboxLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: waynabox_exception_logger_channel }
+
+    waynabox_exception_logger:
+        alias: waynabox.logger_bundle.infrastructure.waynabox_exception_logger

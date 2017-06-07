@@ -27,11 +27,17 @@ class WaynaboxLoggerExtension extends Extension implements PrependExtensionInter
 
         $config = [
             'handlers' => [
-                "new_waynabox_logger_handler" => [
+                "waynabox_logger_handler" => [
                     "type" => "stream",
                     "formatter" => "waynabox.logger_bundle.infrastructure.waynabox_logging_json_formatter",
-                    "path" => $config['path'],
+                    "path" => $config['logger_file_path'],
                     "channels" =>  [ "waynabox_logger_channel" ]
+                ],
+                "waynabox_exception_logger_handler" => [
+                    "type" => "stream",
+                    "formatter" => "waynabox.logger_bundle.infrastructure.waynabox_logging_json_formatter",
+                    "path" => $config['logger_exception_file_path'],
+                    "channels" =>  [ "waynabox_exception_logger_channel" ]
                 ]
             ]
         ];
