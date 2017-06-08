@@ -4,16 +4,22 @@ namespace Waynabox\LoggerBundle\Domain;
 
 class WaynaboxLoggerExceptionMessage extends WaynaboxLoggerMessage
 {
-    public function getLogType()
+    public function getLogType(): string
     {
         return 'exception';
     }
 
-    public function processMessage(array $record)
+    protected function getExtraData(array $record): array
     {
-        $record = $this->reformatExceptionMessage($record);
+        return $this->reformatExceptionMessage($record);
+    }
 
-        return $record;
+    public function getMessage(array $record): string
+    {
+        $chainedExceptions = $this->getChainedExceptions($record);
+        $recordStackTrace = $this->buildExceptionStackTrace($chainedExceptions);
+
+        return $recordStackTrace['message'];
     }
 
     private function reformatExceptionMessage(array $record)
@@ -21,10 +27,8 @@ class WaynaboxLoggerExceptionMessage extends WaynaboxLoggerMessage
         $chainedExceptions = $this->getChainedExceptions($record);
 
         $recordStackTrace = $this->buildExceptionStackTrace($chainedExceptions);
-        $record['exception_trace'] = $recordStackTrace;
-        $record['message'] = $recordStackTrace['message'];
 
-        return $record;
+        return ['exception_trace' => $recordStackTrace];
     }
 
     private function getChainedExceptions(array $record)

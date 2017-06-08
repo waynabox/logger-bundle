@@ -4,15 +4,16 @@ namespace Waynabox\LoggerBundle\Domain;
 
 abstract class WaynaboxLoggerMessage
 {
-    abstract function getLogType();
+    abstract public function getLogType(): string;
 
-    abstract function processMessage(array $record);
+    abstract public function getMessage(array $record): string ;
 
-    public function processRecord(array $record)
+    abstract protected function getExtraData(array $record): array;
+
+    public function processRecord(array $record): array
     {
-        $record['log_type'] = $this->getLogType();
-        $record = $this->processMessage($record);
+        $extra = $this->getExtraData($record);
 
-        return $record;
+        return $extra;
     }
 }

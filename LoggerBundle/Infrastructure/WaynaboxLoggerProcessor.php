@@ -49,15 +49,19 @@ class WaynaboxLoggerProcessor
     {
         $this->initializeRequestData();
 
-        $record = $this->loggerMessage->processRecord($record);
+        $processedRecord = $record;
 
-        $record['request_id']['token'] = $this->token;
-        $record['request_id']['session_id'] = $this->sessionId;
-        $record['request_information'] = $this->requestInformation;
+        $processedRecord['message'] = $this->loggerMessage->getMessage($record);
+        $processedRecord['log_type'] = $this->loggerMessage->getLogType();
+        $processedRecord['extra'] = $this->loggerMessage->processRecord($record);
 
-        $this->isConsoleCommand() ? $record['request_type'] = 'command' : $record['request_type'] = 'http';
+        $processedRecord['request_id']['token'] = $this->token;
+        $processedRecord['request_id']['session_id'] = $this->sessionId;
+        $processedRecord['request_information'] = $this->requestInformation;
 
-        return $record;
+        $this->isConsoleCommand() ? $processedRecord['request_type'] = 'command' : $processedRecord['request_type'] = 'http';
+
+        return $processedRecord;
     }
 
     private function initializeRequestData()

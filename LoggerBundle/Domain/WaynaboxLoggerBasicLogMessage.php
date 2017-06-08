@@ -4,13 +4,18 @@ namespace Waynabox\LoggerBundle\Domain;
 
 class WaynaboxLoggerBasicLogMessage extends WaynaboxLoggerMessage
 {
-    public function getLogType()
+    public function getLogType(): string
     {
         return 'log';
     }
 
-    public function processMessage(array $record)
+    public function getExtraData(array $record): array
     {
-        return $record;
+        return [];
+    }
+
+    public function getMessage(array $record): string
+    {
+        return $record['message'];
     }
 }
