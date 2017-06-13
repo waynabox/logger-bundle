@@ -130,7 +130,8 @@ class WaynaboxLoggerProcessor
             'agent' => $this->request->getCurrentRequest()->server->get('HTTP_USER_AGENT'),
             'referer' => $this->request->getCurrentRequest()->headers->get('referer'),
             'fwd_for' => $this->request->getCurrentRequest()->headers->get('HTTP_X_FORWARDED_FOR'),
-            'client_ip' => $this->request->getCurrentRequest()->getClientIps()
+            'client_ip' => $this->request->getCurrentRequest()->getClientIps(),
+            'locale' => $this->request->getCurrentRequest()->getLocale()
         ];
 
         $requestInformation['parameters'] = [];
